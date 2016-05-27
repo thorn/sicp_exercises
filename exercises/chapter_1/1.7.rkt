@@ -5,15 +5,15 @@
 (define (improve guess x) (average guess (/ x guess)))
 (define (square x) (* x x))
 
-(define (good-enough? guess x)
-  (< (abs (- (square guess) x)) 0.001))
+(define (good-enough? old-guess new-guess)
+  (< (abs (- old-guess new-guess)) 0.001))
 
-(define (sqrt-iter guess x)
-  (if (good-enough? guess x)
-      guess
-      (sqrt-iter (improve guess x)
+(define (sqrt-iter old-guess new-guess x)
+  (if (good-enough? old-guess new-guess)
+      old-guess
+      (sqrt-iter new-guess (improve new-guess x)
                  x)))
 (define (square-root x)
-  (sqrt-iter 1.0 x))
+  (sqrt-iter 1.0 2.0 x))
 
-(square-root 9)
+(square-root 0.001)
