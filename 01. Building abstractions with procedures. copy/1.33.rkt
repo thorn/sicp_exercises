@@ -37,3 +37,16 @@ b. the product of all the positive integers less than n that are relatively prim
   (define (inc n) (+ n 1))
   (filtered-accumulate + 0 square a inc b prime?))
 (sum-of-squares-prime 0 100)
+
+; b.
+(define (gcd a b)
+  (if (= b 0)
+    a
+    (gcd b (remainder a b))))
+(define (relatively-prime n)
+  (define (inc a) (+ a 1))
+  (define (predicate i) (= (gcd i n) 1))
+  (define (identity a) a)
+  (filtered-accumulate * 1 identity 1 inc n predicate))
+(relatively-prime 10) ; 1 * 3 * 7 * 9
+
