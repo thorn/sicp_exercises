@@ -1,0 +1,45 @@
+#lang racket
+#|
+Define a better version of make-rat that han- dles both positive and negative arguments. make-rat should normalize the sign so that if the rational number is positive, both the numerator and denominator are positive, and if the rational number is negative, only the numerator is negative.
+|#
+(define (gcd a b)
+  (if (= b 0)
+      a
+      (gcd b (remainder a b))))
+
+(define (add-rat x y)
+  (make-rat (+ (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+(define (sub-rat x y)
+  (make-rat (- (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+(define (mul-rat x y)
+  (make-rat (* (numer x) (numer y))
+            (* (denom x) (denom y))))
+(define (div-rat x y)
+  (make-rat (* (numer x) (denom y))
+            (* (denom x) (numer y))))
+(define (equal-rat? x y)
+  (= (* (numer x) (denom y))
+     (* (numer y) (denom x))))
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  (display "/")
+  (display (denom x)))
+(define (numer rat) (car rat))
+(define (denom rat) (cdr rat))
+
+(define (make-rat numer denom)
+  (let ((g (abs (gcd numer denom)))
+        (sign (if (< denom 0) -1 1)))
+    (cons (/ (* numer sign) g)
+          (/ denom sign g))))
+
+(print-rat (make-rat 2 10))
+(print-rat (make-rat -2 10))
+(print-rat (make-rat 2 -10))
+(print-rat (make-rat -2 -10))
+(print-rat (make-rat -15 -10))
